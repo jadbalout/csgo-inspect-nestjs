@@ -1,16 +1,22 @@
 import { Injectable } from "@nestjs/common";
 import { FileAdapter } from "csgo-inspect/dist/adapter";
-import { Item, ItemDocument } from "./item.model";
+import { Item, ItemDocument } from "./models/item.model";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { CSGOItem } from "csgo-inspect/dist/bot";
+import { Bot, BotDocument } from "./models/bot.model";
 
 @Injectable()
 export class InspectAdapter extends FileAdapter {
     constructor(
         @InjectModel(Item.name) private readonly itemModel: Model<ItemDocument>,
+        @InjectModel(Bot.name) private readonly botModel: Model<BotDocument>,
     ) {
         super();
+    }
+
+    async getBots(): Promise<any> {
+        return this.botModel.find().lean();
     }
 
     async getItemByAssetId(assetId: string): Promise<any> {

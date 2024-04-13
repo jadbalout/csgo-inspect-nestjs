@@ -5,8 +5,9 @@ import { ConfigModule, ConfigType } from '@nestjs/config';
 import dbConfig from './config/db.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { InspectAdapter } from './inspect.adapter';
-import { Item, ItemSchema } from './item.model';
+import { Item, ItemSchema } from './models/item.model';
 import proxiesConfig from './config/proxies.config';
+import { Bot, BotSchema } from './models/bot.model';
 
 @Module({
   imports: [
@@ -24,8 +25,9 @@ import proxiesConfig from './config/proxies.config';
       inject: [dbConfig.KEY]
     }),
     MongooseModule.forFeature([
-      { name: Item.name, schema: ItemSchema }
-    ])
+      { name: Item.name, schema: ItemSchema },
+      { name: Bot.name, schema: BotSchema }
+    ]),
   ],
   controllers: [AppController],
   providers: [
