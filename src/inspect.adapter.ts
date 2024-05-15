@@ -97,7 +97,7 @@ export class InspectAdapter extends FileAdapter {
         await this.itemModel.bulkWrite(itemsToUpdate.map(item => ({
             updateOne: {
                 filter: { _id: item._id },
-                update: item
+                update: item.toObject()
             }
         })));
     }
