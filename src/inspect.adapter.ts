@@ -32,10 +32,11 @@ export class InspectAdapter extends FileAdapter {
         //If item by defindex, paintindex, paintwear, paintseed exists, update it
         //If item doesn't exist, create it
         const { itemid, defindex, paintindex, paintwear, paintseed } = item;
+        const fakeseed = paintseed ? paintseed : Math.random(); //fakeseed for items without paintseed to offset unique index
         const existingItem = await this.itemModel.findOne({
             $or: [
                 { itemid },
-                { defindex, paintindex, paintwear, paintseed }
+                { defindex, paintindex, paintwear, paintseed, fakeseed }
             ]
         });
         if(existingItem) {
@@ -49,6 +50,7 @@ export class InspectAdapter extends FileAdapter {
                 paintindex,
                 paintwear,
                 paintseed,
+                fakeseed,
                 killeatervalue: item.killeatervalue,
                 killeaterscoretype: item.killeaterscoretype,
                 customname: item.customname,
@@ -66,10 +68,11 @@ export class InspectAdapter extends FileAdapter {
         const itemsToUpdate = [];
         for(const item of items) {
             const { itemid, defindex, paintindex, paintwear, paintseed } = item;
+            const fakeseed = paintseed ? paintseed : Math.random(); //fakeseed for items without paintseed to offset unique index
             const existingItem = await this.itemModel.findOne({
                 $or: [
                     { itemid },
-                    { defindex, paintindex, paintwear, paintseed }
+                    { defindex, paintindex, paintwear, paintseed, fakeseed }
                 ]
             });
             if(existingItem) {
@@ -83,6 +86,7 @@ export class InspectAdapter extends FileAdapter {
                     paintindex,
                     paintwear,
                     paintseed,
+                    fakeseed,
                     killeatervalue: item.killeatervalue,
                     killeaterscoretype: item.killeaterscoretype,
                     customname: item.customname,

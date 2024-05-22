@@ -16,6 +16,8 @@ export class Item {
     paintwear: number;
     @Prop({ default: null })
     paintseed: number;
+    @Prop({ default: null })
+    fakeseed: number;
     @Prop()
     killeatervalue: number | null;
     @Prop({ type: mongoose.Schema.Types.Mixed })
@@ -38,5 +40,6 @@ ItemSchema.index({
     defindex: 1,
     paintindex: 1,
     paintwear: 1,
-    paintseed: 1
+    paintseed: 1,
+    fakeseed: 1
 }, { unique: true });
