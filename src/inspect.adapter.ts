@@ -59,7 +59,11 @@ export class InspectAdapter extends FileAdapter {
                 quality: item.quality,
                 origin: item.origin
             });
-            newItem.save();
+            try {
+                newItem.save();
+            } catch(err) {
+                return;
+            }
         }
     }
 
@@ -97,13 +101,17 @@ export class InspectAdapter extends FileAdapter {
                 });
             }
         }
-        await this.itemModel.insertMany(itemsToCreate);
-        await this.itemModel.bulkWrite(itemsToUpdate.map(item => ({
-            updateOne: {
-                filter: { _id: item._id },
-                update: item.toObject()
-            }
-        })));
+        try {
+            await this.itemModel.insertMany(itemsToCreate);
+            await this.itemModel.bulkWrite(itemsToUpdate.map(item => ({
+                updateOne: {
+                    filter: { _id: item._id },
+                    update: item.toObject()
+                }
+            })));
+        } catch(err) {
+            return;
+        }
     }
     
 }
